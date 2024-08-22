@@ -1,0 +1,28 @@
+version: '3.5'
+services:
+  keydb001:
+    image: eqalpha/keydb:latest
+    container_name: keydb1
+    volumes:
+      - ./keydb.conf:/etc/keydb/keydb.conf
+    networks:
+      keydb-network:
+        ipv4_address: 172.23.0.13
+    ports:
+      - 16379:6379
+  keydb002:
+    image: eqalpha/keydb:latest
+    container_name: keydb2
+    networks:
+      keydb-network:
+        ipv4_address: 172.23.0.12
+    ports:
+      - 26379:6379
+    volumes:
+      - ./keydb2.conf:/etc/keydb/keydb.conf
+networks:
+  keydb-network:
+    name: keydb-network
+    ipam:
+      config:
+        - subnet: 172.23.0.0/16
